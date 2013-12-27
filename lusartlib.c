@@ -255,9 +255,9 @@ HANDLE set_uart(const char *portname, int speed, int databits, int stopbits, int
 	PurgeComm(fuart, PURGE_TXABORT | PURGE_RXABORT | PURGE_TXCLEAR | PURGE_RXCLEAR);
 	TimeOuts.ReadIntervalTimeout=0;
 	TimeOuts.ReadTotalTimeoutMultiplier=0;
-	TimeOuts.ReadTotalTimeoutConstant=50;
+	TimeOuts.ReadTotalTimeoutConstant=10;
 	TimeOuts.WriteTotalTimeoutMultiplier=1;
-	TimeOuts.WriteTotalTimeoutConstant=50;
+	TimeOuts.WriteTotalTimeoutConstant=10;
 	SetCommTimeouts(fuart,&TimeOuts);
 	return fuart;
 }
@@ -359,7 +359,7 @@ int set_uart(const char *portname, int speed, int databits, int stopbits, int pa
 	opt.c_iflag &=~(IXON|INLCR|IGNCR|ICRNL|IXOFF);
 	opt.c_oflag &=~(ONLCR|OCRNL|ONOCR|ONLRET|OFILL); 
 	tcflush(fuart, TCIFLUSH); 
-	opt.c_cc[VTIME] = 1;
+	opt.c_cc[VTIME] = 10;
 	opt.c_cc[VMIN] = 0;
 	if(tcsetattr(fuart, TCSANOW, &opt) != 0)
 	{
